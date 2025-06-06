@@ -1,4 +1,4 @@
-# Portainer Stack para Traefik by DigitalLFRAN
+# Portainer Stack para Traefik by DigitAllFran
 
 Este stack despliega Portainer CE (Community Edition) y lo configura automáticamente para ser gestionado y asegurado por un stack de Traefik existente.
 
