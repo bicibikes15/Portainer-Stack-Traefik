@@ -1,0 +1,39 @@
+# ##################################################
+# #                                                #
+# #   STACK DE PORTAINER GESTIONADO POR TRAEFIK    #
+# #         https://digitallfran.co                #
+# #                                                #
+# ##################################################
+
+services:
+  portainer:
+    ## -----------------https://digitallfran.co--------------------- ##
+    image: portainer/portainer-ce:2.30.1-alpine
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      # Se conecta a la red externa oficial del ecosistema.
+      - digitallfran_net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer_data:/data
+    labels:
+      - "traefik.enable=true"
+      # --- Especifica la red para que Traefik la vigile ---
+      - "traefik.docker.network=digitallfran_net"
+      # --- Enrutador para la Interfaz de Portainer ---
+      - "traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls.certresolver=myresolver"
+      # --- Definición del Servicio ---
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+
+volumes:
+  portainer_data:
+
+networks:
+  digitallfran_net:
+    # Declara que la red es externa y ya debe existir
+    external: true
