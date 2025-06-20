@@ -1,52 +1,55 @@
-# Portainer Stack para Traefik by DigitAllFran
+<div align="center">
+  <img src="https://www.portainer.io/hubfs/portainer_icon_blue.svg" alt="Portainer Logo" width="120"/>
+  <h1 align="center">Portainer Stack para Traefik by DigitAllFran</h1>
+  <p>
+    <img src="https://img.shields.io/badge/Portainer%20CE-2.20+-blue?style=for-the-badge&logo=portainer&logoColor=white" alt="Portainer CE"/>
+    <img src="https://img.shields.io/badge/Traefik-v3-blueviolet?style=for-the-badge&logo=traefikproxy&logoColor=white" alt="Traefik v3"/>
+    <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+    <img src="https://img.shields.io/badge/Let's%20Encrypt-003A70?style=for-the-badge&logo=letsencrypt&logoColor=yellow" alt="Let's Encrypt"/>
+  </p>
+</div>
 
-Este stack despliega Portainer CE (Community Edition) y lo configura automáticamente para ser gestionado y asegurado por un stack de Traefik existente.
+> [!NOTE]
+> **Stack listo para producción**  
+> Despliega Portainer CE y lo expone de forma segura detrás de Traefik, con SSL automático y gestión centralizada.
 
-## Requisitos del Dojo
+> [!TIP]
+> **Requisitos previos**  
+> - Stack de **Traefik v3** funcional (recomendado: [Traefik Stack by DigitAllFran](https://github.com/bicibikes15/Traefik))
+> - **Red Docker externa** compartida (`digitallfran_net`)
+> - **Subdominio** para Portainer (ej. `portainer.tudominio.com`) apuntando a la IP del servidor Traefik
 
--   **Un stack de Traefik funcional:** Debes tener un Traefik v3 corriendo, preferiblemente usando [el stack base de DigitalLFRAN](https://github.com/bicibikes15/Traefik).
--   **Una red Docker compartida:** Tu Traefik debe estar conectado a una red Docker externa.
--   **Un subdominio** para Portainer (ej. `portainer.tudominio.com`) apuntando a la IP de tu servidor Traefik.
+> [!IMPORTANT]
+> **El Ritual de Invocación (Instalación)**
+> 1. **Clona el repositorio:**
+>    ```
+>    git clone https://github.com/bicibikes15/Portainer-Stack-Traefik.git
+>    cd Portainer-Stack-Traefik
+>    ```
+> 2. **Verifica o crea la red externa compartida:**
+>    ```
+>    docker network create digitallfran_net
+>    ```
+> 3. **Configura tu dominio:**
+>    ```
+>    cp .env.example .env
+>    # Edita el archivo .env y define PORTAINER_DOMAIN con tu subdominio
+>    ```
+> 4. **Despliega Portainer:**
+>    ```
+>    docker compose up -d
+>    ```
 
-## El Ritual de Invocación (Instalación)
+> [!WARNING]
+> **Verificación y primer acceso**  
+> Traefik detectará el contenedor, generará el certificado SSL y expondrá Portainer en tu subdominio.  
+> Accede a `https://<tu PORTAINER_DOMAIN>`.  
+> La primera vez, Portainer te pedirá crear usuario y contraseña de administrador.
 
-**1. Clonar el Repositorio**
-
-```bash
-# Reemplaza 'tu-github' con tu nombre de usuario y 'tu-repo-portainer' con el nombre del repo
-git clone [https://github.com/tu-github/tu-repo-portainer.git](https://github.com/tu-github/tu-repo-portainer.git)
-cd tu-repo-portainer
-
-2. Verificar la Red Externa Compartida
-
-Este stack debe conectarse a la red de Traefik. El nombre estandarizado para todos los proyectos de DigitalLFRAN es digitallfran_net.
-
-Si no la has creado con el stack de Traefik, créala ahora:
-
-Bash
-
-docker network create digitallfran_net
-
-3. Configurar tu Dominio
-
-Crea tu archivo de configuración local a partir de la plantilla. El archivo .env nunca debe hacerse público.
-
-Bash
-
-cp .env.example .env
-Ahora, edita el archivo .env (nano .env) y establece tu dominio para Portainer:
-
-PORTAINER_DOMAIN: El subdominio que has elegido para Portainer.
-
-4. Desplegar a Portainer
-
-Con tu archivo .env listo y el DNS apuntando correctamente, invoca el jutsu final.
-
-Bash
-
-docker compose up -d
-Verificación
-Traefik detectará automáticamente el nuevo contenedor, le asignará un certificado SSL y lo hará disponible en el dominio que configuraste. Visita https:// seguido de tu PORTAINER_DOMAIN. La primera vez, Portainer te pedirá que crees tu usuario administrador y contraseña.
+> [!NOTE]
+> **¿Todo conectado?**  
+> Si ves el panel de Portainer tras loguearte, ¡rompecabezas completo!  
+> Ahora puedes gestionar todos tus stacks Docker desde una interfaz web segura.
 
 ---
-Con esta pieza, el rompecabezas está completo.
+
